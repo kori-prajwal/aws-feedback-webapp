@@ -4,8 +4,7 @@ A simple, serverless feedback web application built with HTML, JavaScript, AWS L
 The frontend is hosted on Amazon S3 as a static website.
 
 ## 🌐 Live Demo
-👉 [Hosted S3 Website URL Here](https://your-s3-site.amazonaws.com/index.html)  
-*(Replace with your actual URL once hosted)*
+👉 [https://aws-feedback-webapp-prajwal.s3-website-us-east-1.amazonaws.com](https://aws-feedback-webapp-prajwal.s3-website-us-east-1.amazonaws.com)
 
 ---
 
@@ -41,4 +40,3 @@ The frontend is hosted on Amazon S3 as a static website.
                                                                  +----------------+
                                                                  |  DynamoDB      |
                                                                  |  (NoSQL DB)    |
-                                                                 +----------------+
