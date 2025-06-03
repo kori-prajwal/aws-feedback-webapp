@@ -1,33 +1,85 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <form id="feedbackForm">
-      <input type="text" id="name" placeholder="Your Name" required />
-      <input type="email" id="email" placeholder="Your Email" required />
-      <textarea id="message" placeholder="Your Feedback" required></textarea>
-      <button type="submit">Submit</button>
-    </form>
-    <p id="responseMessage"></p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AWS Feedback Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f9f9f9;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #responseMessage {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
 
-    <script>
-      document.getElementById('feedbackForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
+<h1 style="text-align:center;">Submit Your Feedback</h1>
+<form id="feedbackForm">
+  <input type="text" id="name" placeholder="Your Name" required />
+  <input type="email" id="email" placeholder="Your Email" required />
+  <textarea id="message" placeholder="Your Feedback" required></textarea>
+  <button type="submit">Submit</button>
+</form>
+<p id="responseMessage"></p>
 
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
+<script>
+  document.getElementById('feedbackForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-        const response = await fetch('https://qkyyeg1510.execute-api.us-east-1.amazonaws.com/prod/submit-feedback', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ name, email, message })
-        });
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-        const result = await response.json();
-        document.getElementById('responseMessage').textContent = result.message || result.error || 'Something went wrong.';
+    if (!name || !email || !message) {
+      document.getElementById('responseMessage').textContent = "All fields are required.";
+      return;
+    }
+
+    try {
+      const response = await fetch('https://qkyyeg1510.execute-api.us-east-1.amazonaws.com/prod/submit-feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message })
       });
-    </script>
-  </body>
+
+      const result = await response.json();
+      document.getElementById('responseMessage').textContent = result.message || result.error || 'Submission complete.';
+      document.getElementById('feedbackForm').reset();
+    } catch (error) {
+      console.error(error);
+      document.getElementById('responseMessage').textContent = "Error submitting feedback. Please try again.";
+    }
+  });
+</script>
+
+</body>
 </html>
